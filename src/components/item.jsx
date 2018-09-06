@@ -23,18 +23,19 @@ export default class Notification extends Component {
       notificationId,
       notificationMessage,
       deleteNotification,
+      classNamePrefix,
     } = this.props;
 
     return (
-      <div className="notification">
-        <div className="content">
+      <div className={`${classNamePrefix}-item`}>
+        <div className={`${classNamePrefix}-item-content`}>
           {notificationMessage}
         </div>
         <button
           type="button"
           onClick={() => deleteNotification(notificationId)}
         >
-          Close
+          &times;
         </button>
       </div>
     );
@@ -43,10 +44,15 @@ export default class Notification extends Component {
 
 Notification.propTypes = {
   notificationId: PropTypes.string.isRequired,
-  notificationMessage: PropTypes.string.isRequired,
+  notificationMessage: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired,
   deleteNotification: PropTypes.func.isRequired,
+  classNamePrefix: PropTypes.string,
   deleteAfter: PropTypes.number,
 };
 Notification.defaultProps = {
+  classNamePrefix: 'notification',
   deleteAfter: 2000,
 };

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { createPortal } from 'react-dom';
 
-import update from 'immutability-helper';
 import nanoid from 'nanoid';
 
 import { Provider } from './context';
@@ -12,12 +11,14 @@ export default class NotificationsProvider extends Component {
   constructor(props) {
     super(props);
 
+    const { className } = this.props;
+
     this.state = {
       notifications: [],
     };
 
     this.el = document.createElement('div');
-    this.el.setAttribute('class', 'notifications');
+    this.el.setAttribute('class', className);
 
     this.addNotification = this.addNotification.bind(this);
     this.deleteNotification = this.deleteNotification.bind(this);
@@ -33,16 +34,26 @@ export default class NotificationsProvider extends Component {
   }
 
   addNotification(notification) {
-    const { notifications } = this.state;
+    if (notification && typeof notification === 'object') {
+      const { notifications } = this.state;
+      const {
+        message,
+        dismissAfter,
+        onNotificationDelete,
+      } = notification;
 
-    this.setState({
-      notifications: update(notifications, {
-        $push: [{
+      this.setState({
+        notifications: [...notifications, {
           id: nanoid(),
-          message: notification,
+          message,
+          dismissAfter,
+          onNotificationDelete: onNotificationDelete && typeof onNotificationDelete === 'function' ? onNotificationDelete : null,
         }],
-      }),
-    });
+      });
+    } else {
+      // eslint-disable-next-line no-console
+      console.warn('react-context-notification: You tried to add a notification with incorrect function parameters');
+    }
   }
 
   deleteNotification(notificationId) {
@@ -51,7 +62,7 @@ export default class NotificationsProvider extends Component {
 
     if (index > -1) {
       this.setState({
-        notifications: update(notifications, { $splice: [[notifications[index], 1]] }),
+        notifications: notifications.slice(0, index).concat(notifications.slice(index + 1)),
       });
     }
   }
@@ -63,19 +74,24 @@ export default class NotificationsProvider extends Component {
   }
 
   render() {
-    const { children } = this.props;
+    const { children, classNamePrefix } = this.props;
     const { notifications } = this.state;
     const value = {
       notifications,
       addNotification: this.addNotification,
       clearNotifications: this.clearNotifications,
     };
-
-    const notificationsPortal = notifications.map(notification => (
+    const notificationsPortal = notifications.map(({
+      id,
+      message,
+      deleteAfter,
+    }) => (
       <Notification
-        key={notification.id}
-        notificationId={notification.id}
-        notificationMessage={notification.message}
+        key={id}
+        classNamePrefix={classNamePrefix}
+        notificationId={id}
+        notificationMessage={message}
+        deleteAfter={deleteAfter}
         deleteNotification={this.deleteNotification}
       />
     ));
@@ -96,4 +112,11 @@ NotificationsProvider.propTypes = {
     PropTypes.func,
     PropTypes.array,
   ]).isRequired,
+  className: PropTypes.string,
+  classNamePrefix: PropTypes.string,
+};
+
+NotificationsProvider.defaultProps = {
+  className: 'notifications',
+  classNamePrefix: 'notifications',
 };
