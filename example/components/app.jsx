@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 
 import { NotificationsProvider } from '../../src';
-import Consumer from './consumer';
+
+import Children from './children';
 
 class App extends Component {
   constructor(props) {
@@ -14,7 +15,7 @@ class App extends Component {
   render() {
     return (
       <NotificationsProvider>
-        <Consumer />
+        <Children />
       </NotificationsProvider>
     );
   }

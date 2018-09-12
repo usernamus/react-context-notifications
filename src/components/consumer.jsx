@@ -10,16 +10,14 @@ const withNotifications = Children => (props => (
       clearNotifications,
     }) => {
       const keys = [
-        ...Object.keys(props),
         'notifications',
         'addNotification',
         'clearNotifications',
-      ].sort();
-
+      ];
       const identicalKeys = [];
 
-      keys.forEach((key, i) => {
-        if (key === keys[i + 1] && !identicalKeys.includes(key)) {
+      keys.forEach((key) => {
+        if (props[key]) {
           identicalKeys.push(key);
         }
       });
