@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
 import Highlight from 'react-highlight';
 
 import { withNotifications } from '../../src';
@@ -11,22 +12,32 @@ class Children extends Component {
   }
 
   render() {
+    const { addNotification } = this.props;
+    const notification = {
+      message: 'Hello!',
+      deleteAfter: 4000,
+    };
+
     return (
       <Fragment>
         <header>
           <div className="container">
             <h1>React context notifications</h1>
             <p>Extremely simple and flexible notifications based on React Context</p>
+            <button type="button" onClick={() => addNotification(notification)}>
+              Create notification
+            </button>
           </div>
         </header>
         <section>
           <div className="container">
             <h2>Getting started</h2>
             <p>Start by installing react-context-notifications package:</p>
-            <code>
-              <p>npm i react-context-notifications --save</p>
-              <p>yarn add react-context-notifications</p>
-            </code>
+            <Highlight className="javascript">
+              {`npm i react-context-notifications --save
+// or
+yarn add react-context-notifications`}
+            </Highlight>
             <p>Import notification&apos;s provider and wrap your application in it.</p>
             <p>
               The provider is responsible to pass the data and functions
@@ -74,5 +85,9 @@ export default withNotifications(Children)`}
     );
   }
 }
+
+Children.propTypes = {
+  addNotification: PropTypes.func.isRequired,
+};
 
 export default withNotifications(Children);

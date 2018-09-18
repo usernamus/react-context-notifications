@@ -83,6 +83,16 @@ header h1 {
 header p {
   font-size: 14px;
 }
+header button {
+	background: #fff;
+	padding: 5px 15px;
+	margin: 10px 0 0;
+	font-size: 16px;
+	text-align: center;
+	color: #000;
+	border: none;
+	border-radius: 3px;
+}
 section {
   padding: 15px 0;
 }
@@ -154,4 +164,45 @@ section {
 }
 .hljs-link {
   text-decoration: underline;
+}
+.notifications {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
+.notifications .notification-item {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: space-between;
+  overflow: hidden;
+  max-width: 320px;
+  height: 60px;
+  min-height: 60px;
+  margin: 10px auto;
+  box-sizing: border-box;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1), 0 1px 4px rgba(0, 0, 0, 0.1);
+  color: #000;
+}
+.notifications .notification-item-content {
+  padding: 10px 15px;
+	color: #4a4a4a;
+  font-size: 16px;
+}
+.notifications .notification-item button {
+  display: block;
+  float: right;
+  width: 70px;
+  height: 100%;
+  border: none;
+  border-left: 1px solid #eee;
+  background: none;
+  cursor: pointer;
+  font-size: 24px;
+}
+.notifications .notification-item button:active {
+  color: #000;
 }

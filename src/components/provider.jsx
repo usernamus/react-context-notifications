@@ -38,7 +38,7 @@ export default class NotificationsProvider extends Component {
       const { notifications } = this.state;
       const {
         message,
-        dismissAfter,
+        deleteAfter,
         onNotificationDelete,
       } = notification;
 
@@ -46,7 +46,7 @@ export default class NotificationsProvider extends Component {
         notifications: [...notifications, {
           id: nanoid(),
           message,
-          dismissAfter,
+          deleteAfter,
           onNotificationDelete: onNotificationDelete && typeof onNotificationDelete === 'function' ? onNotificationDelete : null,
         }],
       });

@@ -14,7 +14,10 @@ class App extends Component {
 
   render() {
     return (
-      <NotificationsProvider>
+      <NotificationsProvider
+        className="notifications"
+        classNamePrefix="notification"
+      >
         <Children />
       </NotificationsProvider>
     );
