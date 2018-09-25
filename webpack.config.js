@@ -43,9 +43,11 @@ module.exports = (env, argv) => {
   if (argv.mode === 'development') {
     config.devtool = 'source-map';
     config.entry = './example/index.js';
-    config.plugins = [new HtmlWebpackPlugin({
-      template: './example/index.html',
-    })];
+    config.plugins = [
+      new HtmlWebpackPlugin({
+        template: './example/index.html',
+      }),
+    ];
   }
 
   return config;
