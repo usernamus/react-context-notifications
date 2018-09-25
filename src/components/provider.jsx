@@ -58,13 +58,10 @@ export default class NotificationsProvider extends Component {
 
   deleteNotification(notificationId) {
     const { notifications } = this.state;
-    const index = notifications.findIndex(notification => notification.id === notificationId);
 
-    if (index > -1) {
-      this.setState({
-        notifications: notifications.slice(0, index).concat(notifications.slice(index + 1)),
-      });
-    }
+    this.setState({
+      notifications: notifications.filter(notification => notification.id !== notificationId),
+    });
   }
 
   clearNotifications() {
