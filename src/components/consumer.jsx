@@ -3,13 +3,14 @@ import React from 'react';
 import { Consumer } from './context';
 import { providedPropKeys } from './provider';
 
+const getProvidedProps = (props, keys) => keys.reduce((pp, key) => ({
+  ...pp,
+  [key]: props[key],
+}), {});
+
 const withNotifications = Children => (props => (
   <Consumer>
-    {({
-      notifications,
-      addNotification,
-      clearNotifications,
-    }) => {
+    {(consumerProps) => {
       if (process.env.NODE_ENV === 'development') {
         const identicalKeys = providedPropKeys.filter(key => props[key]);
 
@@ -22,9 +23,7 @@ const withNotifications = Children => (props => (
       return (
         <Children
           {...props}
-          notifications={notifications}
-          addNotification={addNotification}
-          clearNotifications={clearNotifications}
+          {...getProvidedProps(consumerProps, providedPropKeys)}
         />
       );
     }}
