@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Consumer } from './context';
+import { providedPropKeys } from './provider';
 
 const withNotifications = Children => (props => (
   <Consumer>
@@ -9,24 +10,12 @@ const withNotifications = Children => (props => (
       addNotification,
       clearNotifications,
     }) => {
-      const keys = [
-        'notifications',
-        'addNotification',
-        'clearNotifications',
-      ];
-
       if (process.env.NODE_ENV === 'development') {
-        const identicalKeys = [];
-
-        keys.forEach((key) => {
-          if (props[key]) {
-            identicalKeys.push(key);
-          }
-        });
+        const identicalKeys = providedPropKeys.filter(key => props[key]);
 
         if (identicalKeys.length) {
           // eslint-disable-next-line no-console
-          console.warn(`react-context-notification: ${identicalKeys.join(', ')} ${identicalKeys.length > 1 ? 'props' : 'prop'} already used in component`);
+          console.warn(`react-context-notification: '${identicalKeys.join(', ')}' ${identicalKeys.length > 1 ? 'props' : 'prop'} already used in component`);
         }
       }
 

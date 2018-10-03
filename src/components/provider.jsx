@@ -7,7 +7,13 @@ import nanoid from 'nanoid';
 import { Provider } from './context';
 import Notification from './item';
 
-export default class NotificationsProvider extends Component {
+const providedPropKeys = [
+  'notifications',
+  'addNotification',
+  'clearNotifications',
+];
+
+class NotificationsProvider extends Component {
   constructor(props) {
     super(props);
 
@@ -116,4 +122,9 @@ NotificationsProvider.propTypes = {
 NotificationsProvider.defaultProps = {
   className: 'notifications',
   classNamePrefix: 'notifications',
+};
+
+export {
+  NotificationsProvider as default,
+  providedPropKeys,
 };
