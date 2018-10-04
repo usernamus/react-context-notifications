@@ -6,12 +6,11 @@ export default class Notification extends Component {
     super(props);
 
     const {
-      notificationId,
       deleteNotification,
       deleteAfter,
     } = props;
 
-    this.deleteTimeout = setTimeout(() => deleteNotification(notificationId), deleteAfter);
+    this.deleteTimeout = setTimeout(() => deleteNotification(), deleteAfter);
   }
 
   componentWillUnmount() {
@@ -20,7 +19,6 @@ export default class Notification extends Component {
 
   render() {
     const {
-      notificationId,
       notificationMessage,
       deleteNotification,
       classNamePrefix,
@@ -33,7 +31,7 @@ export default class Notification extends Component {
         </div>
         <button
           type="button"
-          onClick={() => deleteNotification(notificationId)}
+          onClick={() => deleteNotification()}
         >
           &times;
         </button>
@@ -43,7 +41,6 @@ export default class Notification extends Component {
 }
 
 Notification.propTypes = {
-  notificationId: PropTypes.string.isRequired,
   notificationMessage: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,

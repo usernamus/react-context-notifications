@@ -89,7 +89,7 @@ export default class NotificationsProvider extends Component {
         notificationId={id}
         notificationMessage={message}
         deleteAfter={deleteAfter}
-        deleteNotification={this.deleteNotification}
+        deleteNotification={nId => this.deleteNotification(nId || id)}
       />
     ));
 
