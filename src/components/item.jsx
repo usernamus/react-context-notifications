@@ -11,7 +11,9 @@ export default class Notification extends Component {
       deleteAfter,
     } = props;
 
-    this.deleteTimeout = setTimeout(() => deleteNotification(notificationId), deleteAfter);
+    if (deleteAfter) {
+      this.deleteTimeout = setTimeout(() => deleteNotification(notificationId), deleteAfter);
+    }
   }
 
   componentWillUnmount() {
