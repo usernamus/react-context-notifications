@@ -187,6 +187,12 @@ section {
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1), 0 1px 4px rgba(0, 0, 0, 0.1);
   color: #000;
 }
+.notifications .notification-item-title {
+  padding: 10px 15px;
+	color: #4a4a4a;
+  font-size: 16px;
+  font-weight: 700;
+}
 .notifications .notification-item-content {
   padding: 10px 15px;
 	color: #4a4a4a;

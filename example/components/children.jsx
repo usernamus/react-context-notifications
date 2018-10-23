@@ -15,7 +15,8 @@ class Children extends Component {
     const { addNotification } = this.props;
     const notification = {
       message: 'Hello!',
-      deleteAfter: 4000,
+      deleteAfter: 1000,
+      position: 'right bottom',
     };
 
     return (

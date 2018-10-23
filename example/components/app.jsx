@@ -13,11 +13,13 @@ class App extends Component {
   }
 
   render() {
+    const settings = {
+      className: 'notifications',
+      classNamePrefix: 'notification',
+    };
+
     return (
-      <NotificationsProvider
-        className="notifications"
-        classNamePrefix="notification"
-      >
+      <NotificationsProvider settings={settings}>
         <Children />
       </NotificationsProvider>
     );

@@ -6,12 +6,13 @@ import nanoid from 'nanoid';
 
 import { Provider } from './context';
 import Notification from './item';
+import Portal from './portal';
 
 export default class NotificationsProvider extends Component {
   constructor(props) {
     super(props);
 
-    const { className } = this.props;
+    const { settings: { className } } = this.props;
 
     this.state = {
       notifications: [],
@@ -38,6 +39,7 @@ export default class NotificationsProvider extends Component {
       const { notifications } = this.state;
       const {
         message,
+        position,
         deleteAfter,
         onNotificationDelete,
       } = notification;
@@ -46,7 +48,9 @@ export default class NotificationsProvider extends Component {
         notifications: [...notifications, {
           id: nanoid(),
           message,
+          position,
           deleteAfter,
+          deleteNotification: this.deleteNotification,
           onNotificationDelete: onNotificationDelete && typeof onNotificationDelete === 'function' ? onNotificationDelete : null,
         }],
       });
@@ -71,27 +75,21 @@ export default class NotificationsProvider extends Component {
   }
 
   render() {
-    const { children, classNamePrefix } = this.props;
+    const { children, settings } = this.props;
+    const { item: Item } = settings;
     const { notifications } = this.state;
     const value = {
       notifications,
       addNotification: this.addNotification,
       clearNotifications: this.clearNotifications,
     };
-    const notificationsPortal = notifications.map(({
-      id,
-      message,
-      deleteAfter,
-    }) => (
-      <Notification
-        key={id}
-        classNamePrefix={classNamePrefix}
-        notificationId={id}
-        notificationMessage={message}
-        deleteAfter={deleteAfter}
-        deleteNotification={this.deleteNotification}
+    const notificationsPortal = (
+      <Portal
+        notifications={notifications}
+        notificationItem={Item || Notification}
       />
-    ));
+    );
+
 
     return (
       <Provider value={value}>
@@ -109,11 +107,20 @@ NotificationsProvider.propTypes = {
     PropTypes.func,
     PropTypes.array,
   ]).isRequired,
-  className: PropTypes.string,
-  classNamePrefix: PropTypes.string,
+  settings: PropTypes.shape({
+    className: PropTypes.string,
+    classNamePrefix: PropTypes.string,
+    item: PropTypes.oneOfType([
+      PropTypes.node,
+      PropTypes.element,
+    ]),
+  }),
 };
 
 NotificationsProvider.defaultProps = {
-  className: 'notifications',
-  classNamePrefix: 'notifications',
+  settings: {
+    className: 'notifications',
+    classNamePrefix: 'notifications',
+    item: null,
+  },
 };
