@@ -14,42 +14,59 @@ export default class Portal extends Component {
     return <Notification key={notification.id} {...notification} />;
   }
 
+  renderAreas(sortedNotifications) {
+    const { settings } = this.props;
+
+    if (sortedNotifications) {
+      const { defaultStyles } = settings || {};
+
+      return Object.keys(sortedNotifications).map((key) => {
+        const { notifications, styles } = sortedNotifications[key];
+
+        return (
+          <div key={key} className={key} style={defaultStyles ? styles : null}>
+            {notifications && notifications.map(this.renderNotification)}
+          </div>
+        );
+      });
+    }
+
+    return null;
+  }
+
   render() {
     const { notifications, notificationItem } = this.props;
 
     if (!notificationItem) return null;
 
     const sortedNotifications = {
-      leftTop: notifications.filter(el => el.position === 'left top'),
-      centerTop: notifications.filter(el => el.position === 'center top'),
-      rightTop: notifications.filter(el => el.position === 'right top'),
-      leftBottom: notifications.filter(el => el.position === 'left bottom'),
-      centerBottom: notifications.filter(el => !el.position || el.position === 'center bottom'),
-      rightBottom: notifications.filter(el => el.position === 'right bottom'),
+      'top-left': {
+        notifications: notifications.filter(el => el.position === 'top left'),
+        styles: { position: 'fixed', left: 0, top: 0 },
+      },
+      'top-center': {
+        notifications: notifications.filter(el => el.position === 'top center'),
+        styles: { position: 'fixed', left: '50%', top: 0 },
+      },
+      'top-right': {
+        notifications: notifications.filter(el => el.position === 'top right'),
+        styles: { position: 'fixed', right: 0, top: 0 },
+      },
+      'bottom-left': {
+        notifications: notifications.filter(el => el.position === 'bottom left'),
+        styles: { position: 'fixed', left: 0, bottom: 0 },
+      },
+      'bottom-center': {
+        notifications: notifications.filter(el => !el.position || el.position === 'bottom center'),
+        styles: { position: 'fixed', left: '50%', bottom: 0 },
+      },
+      'bottom-right': {
+        notifications: notifications.filter(el => el.position === 'bottom right'),
+        styles: { position: 'fixed', right: 0, bottom: 0 },
+      },
     };
 
-    return (
-      <div className="portal">
-        <div className="left-top" style={{ position: 'fixed', left: 0, top: 0 }}>
-          {sortedNotifications && sortedNotifications.leftTop.map(this.renderNotification)}
-        </div>
-        <div className="center-top" style={{ position: 'fixed', left: '50%', top: 0 }}>
-          {sortedNotifications && sortedNotifications.centerTop.map(this.renderNotification)}
-        </div>
-        <div className="right-top" style={{ position: 'fixed', right: 0, top: 0 }}>
-          {sortedNotifications && sortedNotifications.rightTop.map(this.renderNotification)}
-        </div>
-        <div className="left-bottom" style={{ position: 'fixed', left: 0, bottom: 0 }}>
-          {sortedNotifications && sortedNotifications.leftBottom.map(this.renderNotification)}
-        </div>
-        <div className="center-bottom" style={{ position: 'fixed', left: '50%', bottom: 0 }}>
-          {sortedNotifications && sortedNotifications.centerBottom.map(this.renderNotification)}
-        </div>
-        <div className="right-bottom" style={{ position: 'fixed', right: 0, bottom: 0 }}>
-          {sortedNotifications && sortedNotifications.rightBottom.map(this.renderNotification)}
-        </div>
-      </div>
-    );
+    return this.renderAreas(sortedNotifications);
   }
 }
 
@@ -60,7 +77,13 @@ Portal.propTypes = {
     PropTypes.element,
     PropTypes.func,
   ]),
+  settings: PropTypes.shape({
+    className: PropTypes.string,
+    classNamePrefix: PropTypes.string,
+    defaultStyles: PropTypes.bool,
+  }),
 };
 Portal.defaultProps = {
   notificationItem: null,
+  settings: null,
 };

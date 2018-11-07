@@ -16,6 +16,7 @@ class App extends Component {
     const settings = {
       className: 'notifications',
       classNamePrefix: 'notification',
+      defaultStyles: true,
     };
 
     return (

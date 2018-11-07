@@ -86,6 +86,7 @@ export default class NotificationsProvider extends Component {
     const notificationsPortal = (
       <Portal
         notifications={notifications}
+        settings={settings}
         notificationItem={Item || Notification}
       />
     );
@@ -114,6 +115,7 @@ NotificationsProvider.propTypes = {
       PropTypes.node,
       PropTypes.element,
     ]),
+    defaultStyles: PropTypes.bool,
   }),
 };
 
@@ -122,5 +124,6 @@ NotificationsProvider.defaultProps = {
     className: 'notifications',
     classNamePrefix: 'notifications',
     item: null,
+    defaultStyles: false,
   },
 };
