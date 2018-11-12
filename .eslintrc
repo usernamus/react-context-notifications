@@ -1,9 +1,35 @@
 {
+  "parser": "babel-eslint",
   "extends": "airbnb",
   "env": {
     "browser": true
   },
   "rules": {
-    "import/no-extraneous-dependencies": "off"
+    "indent": "off",
+    "import/no-extraneous-dependencies": "off",
+    "jsx-a11y/label-has-for": [
+      "error",
+      {
+        "components": [
+          "Label"
+        ],
+        "required": {
+          "every": [
+            "id"
+          ]
+        }
+      }
+    ],
+    "jsx-a11y/label-has-associated-control": [
+      "error",
+      {
+        "required": {
+          "some": [
+            "nesting",
+            "id"
+          ]
+        }
+      }
+    ]
   }
 }

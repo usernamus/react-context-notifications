@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
+import Select from 'react-select';
 import PropTypes from 'prop-types';
-import Highlight from 'react-highlight';
 
 import { withNotifications } from '../../src';
 
@@ -8,81 +8,119 @@ class Children extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.positionOptions = [
+      { value: 'top left', label: 'Top left' },
+      { value: 'top center', label: 'Top center' },
+      { value: 'top right', label: 'Top right' },
+      { value: 'bottom left', label: 'Bottom left' },
+      { value: 'bottom center', label: 'Bottom center' },
+      { value: 'bottom right', label: 'Bottom right' },
+    ];
+
+    this.state = {
+      message: 'Hello',
+      deleteAfter: 4000,
+      position: this.positionOptions[1],
+    };
+  }
+
+  onTextfieldChange = ({ target }) => {
+    this.setState({
+      [target.name]: target.value,
+    });
+  }
+
+  onSelectChange = (value) => {
+    this.setState({
+      position: value,
+    });
+  }
+
+  onClick = () => {
+    const { addNotification } = this.props;
+    const { message, deleteAfter, position } = this.state;
+
+    addNotification({
+      message,
+      position: position.value,
+      deleteAfter: deleteAfter / 1,
+    });
   }
 
   render() {
-    const { addNotification } = this.props;
-    const notification = {
-      message: 'Hello!',
-      deleteAfter: 4000,
-      position: 'top right',
-    };
+    const { message, deleteAfter, position } = this.state;
 
     return (
-      <Fragment>
-        <header>
-          <div className="container">
-            <h1>React context notifications</h1>
+      <div className="example">
+        <div className="example-inner">
+          <div className="example-title">
+            <h1>
+              React context notifications
+              <a
+                href="https://github.com/usernamus/react-context-notifications"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                v0.2.0
+              </a>
+            </h1>
             <p>Extremely simple and flexible notifications based on React Context</p>
-            <button type="button" onClick={() => addNotification(notification)}>
-              Create notification
-            </button>
           </div>
-        </header>
-        <section>
-          <div className="container">
-            <h2>Getting started</h2>
-            <p>Start by installing react-context-notifications package:</p>
-            <Highlight className="javascript">
-              {`npm i react-context-notifications --save
-// or
-yarn add react-context-notifications`}
-            </Highlight>
-            <p>Import notification&apos;s provider and wrap your application in it.</p>
-            <p>
-              The provider is responsible to pass the data and functions
-              by props down to all components that will use HOC.
-            </p>
-            <Highlight className="javascript">
-              {`import React from 'react';
-import { render } from 'react-dom';
-import { NotificationsProvider } from 'react-context-notifications';
-
-const App = () => (
-  <NotificationsProvider>
-    <Routes />
-  </NotificationsProvider>
-);
-
-render(<App />, document.getElementById('app'));`}
-            </Highlight>
-            <p>
-              To manage notifications you need to import HOC and wrap your component.
-              Component gets list of notifications and functions to manage them.
-            </p>
-            <Highlight className="javascript">
-              {`import React from 'react';
-import { withNotifications } from 'react-context-notifications';
-
-const Children = ({ addNotification }) => {
-  const notification = {
-    message: 'Hello!',
-    deleteAfter: 4000,
-  };
-
-  return (
-    <button onClick={() => addNotification(notification)}>
-      Add notification
-    </button>
-  );
-};
-
-export default withNotifications(Children)`}
-            </Highlight>
-          </div>
-        </section>
-      </Fragment>
+          <form className="example-form">
+            <div className="row">
+              <div className="col col-1-4">
+                <label className="label" htmlFor="notification-text">
+                  Message
+                </label>
+                <input
+                  id="notification-text"
+                  className="textfield"
+                  placeholder="Hello"
+                  type="text"
+                  name="message"
+                  value={message}
+                  onChange={this.onTextfieldChange}
+                />
+              </div>
+              <div className="col col-1-4">
+                <label className="label" htmlFor="notification-area">
+                  Position
+                </label>
+                <Select
+                  id="notification-area"
+                  options={this.positionOptions}
+                  value={position}
+                  onChange={this.onSelectChange}
+                />
+              </div>
+              <div className="col col-1-4">
+                <label className="label" htmlFor="notification-delete-after">
+                  Delete after
+                  <span>(Ms)</span>
+                </label>
+                <input
+                  id="notification-delete-after"
+                  className="textfield"
+                  placeholder="4000"
+                  type="text"
+                  name="deleteAfter"
+                  value={deleteAfter}
+                  onChange={this.onTextfieldChange}
+                />
+              </div>
+              <div className="col col-1-4">
+                <button
+                  className="button"
+                  type="button"
+                  onClick={this.onClick}
+                >
+                  Create
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
     );
   }
 }
