@@ -1,6 +1,6 @@
 {
   "name": "react-context-notifications",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Extremely simple notifications based on React Context",
   "keywords": "react, react-context-api, notifications",
   "main": "index.js",
