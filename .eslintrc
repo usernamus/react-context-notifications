@@ -5,7 +5,6 @@
     "browser": true
   },
   "rules": {
-    "indent": "off",
     "import/no-extraneous-dependencies": "off",
     "jsx-a11y/label-has-for": [
       "error",

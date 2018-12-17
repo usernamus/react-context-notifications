@@ -36,6 +36,7 @@ export default class NotificationsProvider extends Component {
 
   addNotification(notification) {
     if (notification && typeof notification === 'object') {
+      const { settings } = this.props;
       const { notifications } = this.state;
       const {
         message,
@@ -51,6 +52,8 @@ export default class NotificationsProvider extends Component {
           position,
           deleteAfter,
           deleteNotification: this.deleteNotification,
+          classNamePrefix: settings.classNamePrefix,
+          defaultStyles: settings.defaultStyles,
           onNotificationDelete: onNotificationDelete && typeof onNotificationDelete === 'function' ? onNotificationDelete : null,
         }],
       });
@@ -76,7 +79,7 @@ export default class NotificationsProvider extends Component {
 
   render() {
     const { children, settings } = this.props;
-    const { item: Item } = settings;
+    const { component: CustomNotification } = settings;
     const { notifications } = this.state;
     const value = {
       notifications,
@@ -87,7 +90,7 @@ export default class NotificationsProvider extends Component {
       <Portal
         notifications={notifications}
         settings={settings}
-        notificationItem={Item || Notification}
+        notificationItem={CustomNotification || Notification}
       />
     );
 
@@ -111,7 +114,7 @@ NotificationsProvider.propTypes = {
   settings: PropTypes.shape({
     className: PropTypes.string,
     classNamePrefix: PropTypes.string,
-    item: PropTypes.oneOfType([
+    component: PropTypes.oneOfType([
       PropTypes.node,
       PropTypes.element,
     ]),
@@ -123,7 +126,7 @@ NotificationsProvider.defaultProps = {
   settings: {
     className: 'notifications',
     classNamePrefix: 'notifications',
-    item: null,
+    component: null,
     defaultStyles: false,
   },
 };
