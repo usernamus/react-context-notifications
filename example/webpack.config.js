@@ -1,12 +1,14 @@
 const autoprefixer = require('autoprefixer');
 
 const HtmlPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
-const config = {
-  entry: './src/index.js',
+module.exports = {
+  entry: `${__dirname}/index.js`,
   output: {
-    filename: '[name].js',
+    filename: '[name].[chunkhash].js',
+    chunkFilename: 'vendor.[chunkhash].js',
     path: `${__dirname}/dist`,
   },
   module: {
@@ -21,7 +23,7 @@ const config = {
       {
         test: /\.css$/,
         use: [
-          'style-loader',
+          MiniCssExtractPlugin.loader,
           'css-loader',
           {
             loader: 'postcss-loader',
@@ -48,25 +50,16 @@ const config = {
       },
     },
   },
-  devServer: {
-    port: 3000,
-    historyApiFallback: true,
-  },
+  plugins: [
+    new HtmlPlugin({
+      template: `${__dirname}/index.html`,
+    }),
+    new MiniCssExtractPlugin({
+      filename: '[name].[hash].css',
+      chunkFilename: '[id].[hash].css',
+    }),
+  ],
   resolve: {
     extensions: ['.js', '.jsx'],
   },
-};
-
-module.exports = (env, argv) => {
-  if (argv.mode === 'development') {
-    config.devtool = 'source-map';
-    config.entry = './example/index.js';
-    config.plugins = [
-      new HtmlPlugin({
-        template: './example/index.html',
-      }),
-    ];
-  }
-
-  return config;
 };
