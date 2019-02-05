@@ -42,13 +42,15 @@ export default class Notification extends Component {
           color: '#000',
           boxShadow: '0 5px 10px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.1)',
           left: (position === 'top center' || position === 'bottom center') ? '-50%' : null,
+          wordBreak: 'break-all',
+          lineHeight: 1.2,
         } : undefined}
       >
         <div
           className={`${classNamePrefix}-item-content`}
           style={defaultStyles ? {
             width: '150px',
-            padding: '10px 15px',
+            padding: '16px 12px',
             color: '#4a4a4a',
             fontSize: '16px',
           } : undefined}
@@ -64,9 +66,11 @@ export default class Notification extends Component {
             padding: 0,
             margin: 0,
             borderLeft: '1px solid #eee',
+            outline: 'none',
             background: 'none',
             cursor: 'pointer',
             fontSize: '20px',
+            color: '#000',
           } : undefined}
           onClick={() => deleteNotification(id)}
         >

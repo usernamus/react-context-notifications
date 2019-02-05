@@ -62,7 +62,7 @@ table {
   width: 100%;
   min-height: 38px;
   padding: 0 10px;
-  margin: 0;
+  margin: 0 0 10px;
   outline: 0;
   font-size: 16px;
   color: #05191a;
@@ -92,6 +92,9 @@ table {
   border-radius: 4px;
   cursor: pointer;
 }
+#notification-area {
+  margin: 0 0 10px;
+}
 .row {
   margin: 0 -5px;
   box-sizing: border-box;
@@ -120,6 +123,13 @@ table {
 .col-1-8 {
   width: 12.5%;
 }
+
+@media all and (max-width: 680px) {
+  .col-1-4 {
+    width: 100%;
+  }
+}
+
 .example {
   display: flex;
   max-width: 680px;
@@ -155,56 +165,4 @@ table {
 .example-title p {
   font-size: 14px;
   color: #666;
-}
-.notifications {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-}
-.notifications .notification-item {
-  display: flex;
-  align-items: center;
-  align-content: center;
-  justify-content: space-between;
-  overflow: hidden;
-  max-width: 320px;
-  height: 60px;
-  min-height: 60px;
-  margin: 10px;
-  box-sizing: border-box;
-  background: #fff;
-  border-radius: 5px;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1), 0 1px 4px rgba(0, 0, 0, 0.1);
-  color: #000;
-}
-.notifications .notification-item-title {
-  padding: 10px 15px;
-  color: #4a4a4a;
-  font-size: 16px;
-  font-weight: 700;
-}
-.notifications .notification-item-content {
-  min-width: 150px;
-  padding: 10px 15px;
-  color: #4a4a4a;
-  font-size: 16px;
-}
-.notifications .notification-item button {
-  display: block;
-  float: right;
-  width: 70px;
-  height: 100%;
-  border: none;
-  border-left: 1px solid #eee;
-  background: none;
-  cursor: pointer;
-  font-size: 24px;
-}
-.notifications .notification-item button:active {
-  color: #000;
-}
-.top-center .notification-item, .bottom-center .notification-item {
-  position: relative;
-  left: -50%;
 }
