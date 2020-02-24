@@ -5,6 +5,7 @@
     "browser": true
   },
   "rules": {
+    "no-console": ["error", { "allow": ["error"] }],
     "import/no-extraneous-dependencies": "off",
     "jsx-a11y/label-has-for": [
       "error",
@@ -29,6 +30,7 @@
           ]
         }
       }
-    ]
+    ],
+    "react/jsx-props-no-spreading": "off"
   }
 }

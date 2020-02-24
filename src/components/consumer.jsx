@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Consumer } from './context';
 
-const withNotifications = Children => (props => (
+const withNotifications = (Children) => ((props) => (
   <Consumer>
     {({
       notifications,
@@ -25,8 +25,7 @@ const withNotifications = Children => (props => (
         });
 
         if (identicalKeys.length) {
-          // eslint-disable-next-line no-console
-          console.warn(`react-context-notification: ${identicalKeys.join(', ')} ${identicalKeys.length > 1 ? 'props' : 'prop'} already used in component`);
+          console.error(`react-context-notification: ${identicalKeys.join(', ')} ${identicalKeys.length > 1 ? 'props' : 'prop'} already used in component`);
         }
       }
 

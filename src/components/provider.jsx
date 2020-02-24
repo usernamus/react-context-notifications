@@ -67,7 +67,7 @@ export default class NotificationsProvider extends Component {
     const { notifications } = this.state;
 
     this.setState({
-      notifications: notifications.filter(notification => notification.id !== notificationId),
+      notifications: notifications.filter((notification) => notification.id !== notificationId),
     });
   }
 
