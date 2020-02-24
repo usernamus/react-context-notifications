@@ -1,3 +1,7 @@
 import { createContext } from 'react';
 
-export const { Consumer, Provider } = createContext({ notifications: null });
+const NotificationContext = createContext({ notifications: null });
+
+export const { Provider, Consumer } = NotificationContext;
+
+export default NotificationContext;

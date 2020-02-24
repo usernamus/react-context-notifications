@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { createPortal } from 'react-dom';
 
@@ -8,36 +8,27 @@ import { Provider } from './context';
 import Notification from './item';
 import Portal from './portal';
 
-export default class NotificationsProvider extends Component {
-  constructor(props) {
-    super(props);
+const NotificationsProvider = ({
+  children,
+  settings,
+}) => {
+  const element = useRef(null);
+  const [notifications, setNotifications] = useState([]);
+  const {
+    className,
+    component: CustomNotification,
+  } = settings;
 
-    const { settings: { className } } = this.props;
+  const deleteNotification = (notificationId) => {
+    setNotifications(notifications.filter((notification) => notification.id !== notificationId));
+  };
 
-    this.state = {
-      notifications: [],
-    };
+  const clearNotifications = () => {
+    setNotifications([]);
+  };
 
-    this.el = document.createElement('div');
-    this.el.setAttribute('class', className);
-
-    this.addNotification = this.addNotification.bind(this);
-    this.deleteNotification = this.deleteNotification.bind(this);
-    this.clearNotifications = this.clearNotifications.bind(this);
-  }
-
-  componentDidMount() {
-    document.body.appendChild(this.el);
-  }
-
-  componentWillUnmount() {
-    document.body.removeChild(this.el);
-  }
-
-  addNotification(notification) {
+  const addNotification = (notification) => {
     if (notification && typeof notification === 'object') {
-      const { settings } = this.props;
-      const { notifications } = this.state;
       const {
         message,
         position,
@@ -45,64 +36,51 @@ export default class NotificationsProvider extends Component {
         onNotificationDelete,
       } = notification;
 
-      this.setState({
-        notifications: [...notifications, {
-          id: nanoid(),
-          message,
-          position,
-          deleteAfter,
-          deleteNotification: this.deleteNotification,
-          classNamePrefix: settings.classNamePrefix,
-          defaultStyles: settings.defaultStyles,
-          onNotificationDelete: onNotificationDelete && typeof onNotificationDelete === 'function' ? onNotificationDelete : null,
-        }],
-      });
+      setNotifications([...notifications, {
+        id: nanoid(),
+        message,
+        position,
+        deleteAfter,
+        deleteNotification,
+        classNamePrefix: settings.classNamePrefix,
+        defaultStyles: settings.defaultStyles,
+        onNotificationDelete: typeof onNotificationDelete === 'function' ? onNotificationDelete : null,
+      }]);
     } else {
       // eslint-disable-next-line no-console
       console.warn('react-context-notification: You tried to add a notification with incorrect function parameters');
     }
-  }
+  };
 
-  deleteNotification(notificationId) {
-    const { notifications } = this.state;
+  useEffect(() => {
+    element.current = document.createElement('div');
+    element.current.setAttribute('class', className);
 
-    this.setState({
-      notifications: notifications.filter((notification) => notification.id !== notificationId),
-    });
-  }
+    document.body.appendChild(element.current);
 
-  clearNotifications() {
-    this.setState({
-      notifications: [],
-    });
-  }
+    return () => document.body.removeChild(element.current);
+  }, []);
 
-  render() {
-    const { children, settings } = this.props;
-    const { component: CustomNotification } = settings;
-    const { notifications } = this.state;
-    const value = {
-      notifications,
-      addNotification: this.addNotification,
-      clearNotifications: this.clearNotifications,
-    };
-    const notificationsPortal = (
-      <Portal
-        notifications={notifications}
-        settings={settings}
-        notificationItem={CustomNotification || Notification}
-      />
-    );
+  const value = {
+    notifications,
+    addNotification,
+    clearNotifications,
+  };
+  const notificationsPortal = (
+    <Portal
+      notifications={notifications}
+      settings={settings}
+      notificationItem={CustomNotification || Notification}
+    />
+  );
 
-
-    return (
-      <Provider value={value}>
-        {children}
-        {createPortal(notificationsPortal, this.el)}
-      </Provider>
-    );
-  }
-}
+  return (
+    <Provider value={value}>
+      {children}
+      {element.current && createPortal(notificationsPortal, element.current)}
+    </Provider>
+  );
+};
 
 NotificationsProvider.propTypes = {
   children: PropTypes.oneOfType([
@@ -130,3 +108,5 @@ NotificationsProvider.defaultProps = {
     defaultStyles: false,
   },
 };
+
+export default NotificationsProvider;

@@ -41,27 +41,27 @@ export default class Portal extends Component {
 
     const sortedNotifications = {
       'top-left': {
-        notifications: notifications.filter(el => el.position === 'top left'),
+        notifications: notifications.filter((el) => el.position === 'top left'),
         styles: { position: 'fixed', left: 0, top: 0 },
       },
       'top-center': {
-        notifications: notifications.filter(el => el.position === 'top center'),
+        notifications: notifications.filter((el) => el.position === 'top center'),
         styles: { position: 'fixed', left: '50%', top: 0 },
       },
       'top-right': {
-        notifications: notifications.filter(el => el.position === 'top right'),
+        notifications: notifications.filter((el) => el.position === 'top right'),
         styles: { position: 'fixed', right: 0, top: 0 },
       },
       'bottom-left': {
-        notifications: notifications.filter(el => el.position === 'bottom left'),
+        notifications: notifications.filter((el) => el.position === 'bottom left'),
         styles: { position: 'fixed', left: 0, bottom: 0 },
       },
       'bottom-center': {
-        notifications: notifications.filter(el => !el.position || el.position === 'bottom center'),
+        notifications: notifications.filter((el) => !el.position || el.position === 'bottom center'),
         styles: { position: 'fixed', left: '50%', bottom: 0 },
       },
       'bottom-right': {
-        notifications: notifications.filter(el => el.position === 'bottom right'),
+        notifications: notifications.filter((el) => el.position === 'bottom right'),
         styles: { position: 'fixed', right: 0, bottom: 0 },
       },
     };
