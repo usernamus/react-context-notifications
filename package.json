@@ -47,7 +47,7 @@
     "react-dom": ">=16.3.0"
   },
   "dependencies": {
-    "nanoid": "^2.1.11",
+    "nanoid": "^3.1.31",
     "prop-types": "^15.7.2"
   }
 }
